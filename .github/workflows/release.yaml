@@ -1,0 +1,31 @@
+name: "lb2"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Compile first file
+        run: g++ -masm=intel first.cpp -o first
+
+      - name: Compile second file
+        run: g++ -O2 second.cpp -o second
+
+      - name: Run first bin
+        run: ./first 17 2
+
+      - name: Run second bin
+        run: ./second 10000
+
+      - name: Run second bin with another argument
+        run: ./second 10002
