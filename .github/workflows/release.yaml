@@ -19,7 +19,7 @@ jobs:
         run: g++ -masm=intel first.cpp -o first
 
       - name: Compile second file
-        run: g++ -O2 second.cpp -o second
+        run: g++ -O0 second.cpp -o second
 
       - name: Run first bin
         run: ./first 17 2
@@ -28,4 +28,4 @@ jobs:
         run: ./second 10000
 
       - name: Run second bin with another argument
-        run: ./second 10002
+        run: ./second 30000
