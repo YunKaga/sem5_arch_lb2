@@ -17,30 +17,30 @@ long int sum_asm_func(long int N) {
     
     __asm__ __volatile__ ( 
         ".intel_syntax noprefix \n\t"
-        "mov rcx, 1 \n\t"
-        "mov %0, 0 \n\t"
-        "cmp rcx, %1 \n\t"
+        "mov rcx, 1 \n\t" // Инициализация счётчика цикла
+        "mov %0, 0 \n\t" // Обнуление переменной суммы
+        "cmp rcx, %1 \n\t" // Сравнение счётчика с верхней границей N
         "jg 3f \n\t"
         
         "1: \n\t"
-        "mov rax, rcx \n\t"
-        "cqo \n\t"
-        "mov rsi, 3 \n\t"
-        "idiv rsi \n\t"
-        "test rdx, rdx \n\t"
-        "jnz 2f \n\t"
+        "mov rax, rcx \n\t" // Подготовка перед делением
+        "cqo \n\t" // Расширение rax в rdx
+        "mov rsi, 3 \n\t" // Загрузка делителя
+        "idiv rsi \n\t" // Деление
+        "test rdx, rdx \n\t" // Проверка на нулевой остаток
+        "jnz 2f \n\t" // Если остаток есть, пропускаем сложение
         
-        "add %0, rcx \n\t"
+        "add %0, rcx \n\t" // Если остаток ноль, то прибавляем в итоговую сумму
         
         "2: \n\t"
-        "inc rcx \n\t"
-        "cmp rcx, %1 \n\t"
-        "jle 1b \n\t"
+        "inc rcx \n\t" // Инкримент счётчика цикла
+        "cmp rcx, %1 \n\t" // Повторное сравнение счётчика с N
+        "jle 1b \n\t" // Если меньше, прыгаем на первый шаг
         
         "3: \n\t"
-        ".att_syntax prefix \n\t"
+        ".att_syntax prefix \n\t" // Восстанавливаем привычный GCC синтаксис
         
-        : "=&r" (sum)
+        : "=&r" (sum) // & - модификатор раннего изменения. Регистр будет затронут до чтения входных
         : "r" (N)
         : "rax", "rcx", "rdx", "rsi", "cc"
     );
