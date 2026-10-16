@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
             : "%eax", "%edx" // Разрушаемые регистры
             );
     auto end_asm = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> asm_time = end_cpp - start_cpp;
+    std::chrono::duration<double, std::milli> asm_time = end_asm - start_asm;
     printf("C++ результат: %i | Время: %lf\n", res_cpp, asm_time.count());
     printf("ASM результат: %i | Время: %lf\n", res_asm, cpp_time.count());
 
